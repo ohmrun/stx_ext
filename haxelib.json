@@ -1,0 +1,18 @@
+{
+  "name": "stx_core",
+  "license": "MIT",
+  "tags": [
+      "cross",
+      "functional"
+  ],
+  "description": "",
+  "contributors": [
+      "0b1kn00b"
+  ],
+  "releasenote": "",
+  "version": "0.0.1",
+  "dependencies": {
+      "tink_core": ""
+  },
+  "classPath": "src/main/haxe"
+}
