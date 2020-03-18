@@ -1,3 +1,0 @@
-package stx.core.head.data;
-
-typedef Reporter<E> = Void -> (Err<E> -> Void);

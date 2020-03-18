@@ -1,6 +1,0 @@
-package stx.core.head.data;
-
-enum StxFailure<T>{
-  ERR_STX(spec:StxFailureSpec);
-  ERR_(v:T);
-}

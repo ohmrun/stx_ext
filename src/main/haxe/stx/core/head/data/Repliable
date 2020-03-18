@@ -1,5 +1,0 @@
-package stx.core.head.data;
-
-interface Repliable<T>{
-  public function reply():T;
-}

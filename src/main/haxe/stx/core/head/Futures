@@ -1,5 +1,0 @@
-package stx.core.head;
-
-class Futures{
-  static public var _(default,null) = new stx.core.body.Futures();
-}

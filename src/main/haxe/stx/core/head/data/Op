@@ -1,7 +1,0 @@
-package stx.core.head.data;
-
-enum Op<U,B,T>{
-  Nop(v:T);
-  Unop(op:U,v:T);
-  Binop(op:B,l:T,r:T);
-}

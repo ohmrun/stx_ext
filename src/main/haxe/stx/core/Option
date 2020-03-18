@@ -1,0 +1,23 @@
+package stx.core;
+
+abstract Option<T>(haxe.ds.Option<T>) from haxe.ds.Option<T>{
+  static private var _ = Options._;
+
+  public function new(self) this = self;
+  @:noUsing @:from static public function fromNullT<T>(v:Null<T>):Option<T> return Options.create(v);
+  
+  public function map<U>(fn:T->U):Option<U>                   return _.map(fn,this);  
+  public function flat_map<U>(fn:T->Option<U>)                    return _.flat_map(fn,this);
+  public function or(thk):Option<T>                           return _.or(thk,this);
+  public function zip<U>(that:Option<U>):Option<Tuple<T,U>>  return _.zip(that,this);
+  public function filter(fn)                                  return _.filter(fn,this);
+  public function def(f:Void->T)                              return _.def(f,this);
+  public function defv(v:T)                                   return _.def(()->v,this);
+  public function fudge(?pos:Position)                        return _.fudge(this);
+  public function is_defined()                                return _.is_defined(this);
+  public function fold<U>(ok:T->U,no:Void->U):U               return _.fold(ok,no,this);
+  public function iterator():Iterator<T>                      return _.iterator(this);
+  public function array():Array<T>                            return Lambda.array({ iterator : iterator });
+  public function merge(that:Option<T>,fn)                    return _.merge(fn,that,this);
+  public function prj():haxe.ds.Option<T>                     return this;
+}

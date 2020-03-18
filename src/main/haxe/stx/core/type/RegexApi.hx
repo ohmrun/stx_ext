@@ -1,6 +1,6 @@
 package stx.core.type;
 
-@:allow(stx.core.pack.Regex) class RegexApi{
+@:allow(stx.core.Regex) class RegexApi{
   public var source(default,null) : String;
   public var option(default,null) : String;
 

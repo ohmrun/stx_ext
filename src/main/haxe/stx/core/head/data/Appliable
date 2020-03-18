@@ -1,5 +1,0 @@
-package stx.core.head.data;
-
-interface Appliable<P,R>{
-  public function apply(p:P):R;
-}
