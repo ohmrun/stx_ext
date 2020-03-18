@@ -1,4 +1,12 @@
--lib tink_core
--cp src/main/haxe
 -main Main
 --interp
+
+#--macro stx.core.Plugin.use()
+#--macro Main.boot()
+-lib tink_core
+-lib stx_pico
+-lib hx3compat
+
+
+-D test=stx_core
+-cp src/main/haxe

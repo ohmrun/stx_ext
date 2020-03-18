@@ -1,65 +1,37 @@
 package stx.core.pack;
 
-import stx.core.head.data.Chunk in ChunkT;
+import stx.core.pack.chunk.Constructor;
 
-import stx.core.pack.body.Chunks;
+abstract Chunk<T,E>(ChunkSum<T,E>) from ChunkSum<T,E> to ChunkSum<T,E>{
+  static public inline function _() return Constructor.ZERO;
 
-abstract Chunk<T,E>(ChunkT<T,E>) from ChunkT<T,E> to ChunkT<T,E>{
+  public function new(self:ChunkSum<T,E>) this = self;
 
-#if tink_state
-  @:from static public function fromPromised<T>(p:Promised<T>):Chunk<T>{
-    return Chunks.fromPromised(p);
-  }
-  @:to public function toPromised():Promised<T>{
-    return Chunks.toPromised(this);
-  }
-#end
-  @:noUsing static public function pure<T>(v:T):Chunk<T,Any>{
-    return pure(v);
-  }
-  @:noUsing @:from static public function fromError<T>(e:Error):Chunk<T,Any>{
-    return End(e);
-  }
-  @:noUsing @:from static public function fromNull_T<T>(v:Null<T>):Chunk<T,Any>{
-    return Chunks.pure(v);
-  }
-  @:noUsing @:from static public function fromOption<T>(opt:Option<T>):Chunk<T,Any>{
-    return switch(opt){
-      case Some(v)  : Val(v);
-      case None     : Tap; 
-    }
-  }
-  public function new(v:ChunkT<T,E>){
-    this = v;
-  }
-  public function sure(?err:TypedError<E>):T{
-    return Chunks.sure(this,err);
-  }
-  public function fold<A,Z>(val:T->Z,ers:Null<TypedError<E>>->Z,Tap:Void->Z):Z{
-    return Chunks.fold(this,val,ers,Tap);
-  }
-  public function map<U>(fn:T->U):Chunk<U,E>{
-    return Chunks.map(this,fn);
-  }
-  public function fmap<U>(fn:T->Chunk<U,E>):Chunk<U,E>{
-    return Chunks.fmap(this,fn);
-  }
-  public function recover(fn:TypedError<E> -> Chunk<T,E> ):Chunk<T,E>{
-    return Chunks.recover(this,fn);
-  }
-  public function zipWith<U,V>(chunk1:Chunk<U,E>,fn:T->U->V):Chunk<V,E>{
-    return Chunks.zipWith(this,chunk1,fn);
-  }
-  public function zip<U>(chunk1:ChunkT<U,E>):Chunk<Tuple2<T,U>,E>{
-    return Chunks.zip(this,chunk1);
-  }
-  public function def(v:Void->T):T{
-    return Chunks.def(this,v);
-  }
-  public function defined():Bool{
-    return Chunks.defined(this);
-  }
-  public function elide<U>():Chunk<U,E>{
-    return cast this;
-  }
+  @:noUsing static public function lift<T,E>(v:ChunkSum<T,E>):Chunk<T,E>                      return new Chunk(v);
+  @:noUsing static public function pure<T,E>(v:T):Chunk<T,E>                                  return _().pure(v);
+  @:noUsing static public function fromTinkOutcome<T,E>(outcome:TinkOutcome<T,Err<E>>)        return _().fromTinkOutcome(outcome);
+
+  @:from @:noUsing static public function fromError<T,E>(e:Err<E>):Chunk<T,E>    return End(e);
+  @:from @:noUsing static public function fromNull_T<T,E>(v:Null<T>):Chunk<T,E>         return _().pure(v);
+  @:from @:noUsing static public function fromOption<T,E>(opt:Option<T>):Chunk<T,E>     return _().fromOption(opt);
+
+  
+    
+  
+  
+  public function fold<Z>(val:T->Z,ers:Null<Err<E>>->Z,Tap:Void->Z):Z                   return _()._.fold(val,ers,Tap,self);
+  public function opt_else<Z>(_if:T->Z,_else:Option<Err<E>>->Z):Z                       return _()._.opt_else(_if,_else,self);
+  public function map<U>(fn:T->U):Chunk<U,E>                                            return _()._.map(fn,self);
+  public function flat_map<U>(fn:T->Chunk<U,E>):Chunk<U,E>                              return _()._.flat_map(fn,self);
+  public function recover<E0>(fn:Err<E> -> Chunk<T,E0> ):Chunk<T,E0>                    return _()._.recover(fn,self);
+  public function zip<U>(that:Chunk<U,E>):Chunk<Tuple<T,U>,E>                           return _()._.zip(that,self);
+  public function def(v:Void->T):T                                                      return _()._.def(v,self);
+  public function is_defined():Bool                                                     return _()._.is_defined(self);
+  public function elide<U>():Chunk<U,E>                                                 return cast self;
+  public function iterator():Iterator<T>                                                return _()._.iterator(self);
+  public function array():Array<T>                                                      return Lambda.array({ iterator : iterator });
+  public function errata<EE>(fn:Err<E>->Err<EE>):Chunk<T,EE>                            return _()._.errata(fn,self);
+
+  private var self(get,never):Chunk<T,E>;
+  private function get_self():Chunk<T,E> return this;
 }

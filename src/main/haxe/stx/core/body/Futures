@@ -1,0 +1,29 @@
+package stx.core.body;
+
+class Futures extends Clazz{
+  public function zip<A,B>(ft1:Future<B>,ft0:Future<A>):Future<Tuple<A,B>>{
+    var done  = false;
+    var left  = None;
+    var right = None;
+    var trigger = Future.trigger();
+    var on_done = function(){
+      switch([left,right]){
+        case [Some(l),Some(r)]:
+        default :
+      }
+    }
+    var l_handler = function(l){
+      left = Some(l);
+      on_done();
+    }
+    var r_handler = function(r){
+      right = Some(r);
+      on_done();
+    }
+
+    ft0.handle(l_handler);
+    ft1.handle(r_handler);
+
+    return trigger.asFuture();
+  }
+}

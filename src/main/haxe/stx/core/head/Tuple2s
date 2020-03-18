@@ -1,0 +1,5 @@
+package stx.core.head;
+
+class Tuples {
+  static public var _(default,null) = new stx.core.body.Tuples();
+}

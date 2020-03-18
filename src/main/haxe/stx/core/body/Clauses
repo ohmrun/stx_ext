@@ -1,0 +1,9 @@
+package stx.core.body;
+class Clauses extends Clazz{
+  public function copy<Subject,Verb>(?brand,?media,self:Clause<Subject,Verb>){
+    return Clause.make(
+      __.option(brand).defv(self.brand),
+      __.option(media).defv(self.media)
+    );
+  }
+}

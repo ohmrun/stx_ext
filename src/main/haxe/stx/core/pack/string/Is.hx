@@ -1,7 +1,7 @@
 package stx.core.pack.string;
 
 class Is{
-  var self : String;
+  var self : StdString;
   public function new(self){
     this.self = self;
   }

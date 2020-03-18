@@ -11,7 +11,7 @@ package stx.core.pack;
   @:from static public function fromObj<K,V>(v:{key : K,val : V}):KV<K,V>{
     return new KV(v);
   }
-  @:from static public function fromTup<K,V>(tp:Tuple2<K,V>):KV<K,V>{
+  @:from static public function fromTup<K,V>(tp:Tuple<K,V>):KV<K,V>{
     return new KV({ key : tp.fst(), val : tp.snd()});
   }
   public function fst():K{

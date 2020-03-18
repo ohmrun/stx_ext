@@ -11,7 +11,7 @@ private class StateRef<S,A>{
   public function write(a:A):State<S,StateRef<S,A>>{
     return function(s:S){
       this.value = a;
-      return tuple2(this,s);
+      return Tuple(this,s);
     }
   }
   public function modify(f:A->A):State<S,StateRef<S,A>> {

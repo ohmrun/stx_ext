@@ -1,0 +1,43 @@
+package stx.core.pack;
+
+import stx.core.head.Tuples;
+import stx.core.head.data.Tuple in TupleT;
+
+@:forward @:callable abstract Tuple<A,B>(TupleT<A,B>) from TupleT<A,B>{
+  static public function lift<A,B>(tp:TupleT<A,B>):Tuple<A,B>{
+    return tp;
+  }
+  @:from static public function fromTinkPair<A,B>(tup:tink.core.Pair<A,B>):Tuple<A,B>  return Tuple(tup.a,tup.b);
+  @:to public function toTinkPair():tink.core.Pair<A,B>                                 return new tink.core.Pair(fst(),snd());
+
+
+  public function new(l,r) this = Tuple(l,r);
+  /**Returns the value on the left hand side.**/
+  public function fst() : A                     return Tuples._.fst(this);
+  /**Returns the value on the right hand side.**/
+  public function snd() : B                     return Tuples._.snd(this);
+  /**Returns the value on the right hand side.**/
+  public function swap() : Tuple<B, A>         return Tuples._.swap(this);
+  /** Equality Function. **/
+  @:op(A == B)
+  public function equals(that : Tuple<A,B>): Bool    return Tuples._.equals(that,this);
+  /** Produces an array of untyped values. **/
+  public function toArray() : Array<Dynamic>          return Tuples._.toArray(this);
+  /** Unpacks the tuple and applies the function with the internal values.**/
+  public function map<C>(fn:B->C):Tuple<A,C>         return Tuples._.map(fn,this);
+
+  public function reduce<Z>(l:A->Z,r:B->Z,plus:Z->Z->Z):Z{
+    return switch(this){
+      case Tuple(_l,_r) : plus(l(_l),r(_r));
+    }
+  }
+  public function into<C>(fn:A->B->C):C{
+    return switch(this){
+      case Tuple(l,r) : fn(l,r);
+    }
+  }
+  public function lmap<C>(fn:A->C):Tuple<C,B>         return switch(this){
+    case Tuple(l,r) : Tuple(fn(l),r);
+  }
+  public function rmap<C>(fn:B->C):Tuple<A,C>         return map(fn);
+}

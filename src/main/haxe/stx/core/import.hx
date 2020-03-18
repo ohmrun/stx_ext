@@ -1,7 +1,9 @@
 package stx.core;
 
-//using stx.core.body.Errors;
-using stx.core.Lift;
+import haxe.Constraints;
+import haxe.ds.ReadOnlyArray;
+
+import stx.core.alias.TinkOutcome;
 
 import haxe.PosInfos;
 using Lambda;
@@ -13,8 +15,13 @@ import haxe.ds.StringMap;
 import haxe.DynamicAccess;
 
 import tink.CoreApi;
-import tink.core.Error;
+import tink.core.Error.Error;
+import tink.core.Error.Pos;
 
-import stx.alias.*;
-import stx.core.head.Data;
-import stx.core.Package;
+import stx.core.alias.*;
+
+
+
+using Lambda;
+using stx.Pico; 
+using stx.core.Pack;

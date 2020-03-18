@@ -1,0 +1,6 @@
+package stx.core.head.data;
+
+enum Fixpoint<C,D>{
+  Cont(v:C);
+  Done(d:D);
+}

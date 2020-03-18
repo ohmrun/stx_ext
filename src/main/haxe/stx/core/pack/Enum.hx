@@ -9,4 +9,10 @@ abstract Enum<T>(StdEnum<T>) from StdEnum<T>{
   public function name(){
     return Type.getEnumName(this);
   }
+  public function construct(cons:Either<Int,String>,args:Array<Dynamic>):Option<T>{
+    return switch(cons){
+      case Left(i)  : StdType.createEnumIndex(this,i,args);
+      case Right(s) : StdType.createEnum(this,s,args);
+    }
+  }
 }

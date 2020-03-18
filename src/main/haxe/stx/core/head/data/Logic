@@ -1,0 +1,10 @@
+package stx.core.head.data;
+
+enum Logic<T>{
+  Seq(l:Logic<T>,r:Logic<T>);
+  Alt(l:Logic<T>,r:Logic<T>);
+
+  Neg(v:Logic<T>);
+
+  App(v:T);
+} 

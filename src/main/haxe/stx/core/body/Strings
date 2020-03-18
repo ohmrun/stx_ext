@@ -1,109 +1,94 @@
 package stx.core.body;
 
-import stx.core.body.Options;
 
 using StringTools;
 
-@:noUsing class Strings {
-  /**
-		Unit function.
-	**/
-  @:noUsing static public function unit():String{
-    return '';
-  }
-  static var Requote                = ~/"([^"\\]*(\\.[^"\\]*)*)"|\\'([^\\'\\]*(\\.[^\\'\\]*)*)\\'/;
-  static var SepAlphaPattern        = ~/(-|_)([a-z])/g;
-  static var AlphaUpperAlphaPattern = ~/-([a-z])([A-Z])/g;
-
+@:noUsing class Strings extends Clazz{
+  
   /**
 		Returns `true` if `v` is `'true'` or `'1'`, `false` if `'false'` or `'0'` and `d` otherwise.
 	**/
-  @:noUsing static public function toBool(v: String, d: Bool): Bool {
-    if (v == null) return d;
-
+  @:noUsing public function parse_bool(v: String): Option<Bool> {
     var vLower = v.toLowerCase();
 
     return switch([vLower,v]){
-      case ['false',_] | [_,'0'] : false;
-      case ['true',_] | [_,'1']  : true;
-      default : d;
+      case ['false',_] | [_,'0']  : Some(false);
+      case ['true',_] | [_,'1']   : Some(true);
+      default                     : None;
     }
   }
-  @:noUsing static public function int(v: String):Option<Int> {
-    if (v == null) return None;
 
+  @:noUsing public function parse_int(self: String):Option<Int> {
     return 
-      Options.option(Std.parseInt(v))
-     .filter(function(i) return !Math.isNaN(i));
+      __.option(Std.parseInt(self))
+        .filter(function(i) return !Math.isNaN(i));
   }
-   @:noUsing static public function float(v: String):Option<Float> {
-    if (v == null) return None;
-
+   @:noUsing public function parse_float(self: String):Option<Float> {
     return 
-      Options.option(Std.parseFloat(v))
+      __.option(Std.parseFloat(self))
      .filter(function(i) return !Math.isNaN(i));
   }
   /**
 		Returns `true` if `frag` is at the beginning of `v`, `false` otherwise.
 	**/
-  @:noUsing static public function startsWith(v: String, frag: String): Bool {
-    return if (v.length >= frag.length && frag == v.substr(0, frag.length)) true else false;
+  @:noUsing public function starts_with(frag: String,self: String): Bool {
+    return if (v.length >= frag.length && frag == self.substr(0, frag.length)) true else false;
   }
   /**
 		Returns `true` if `frag` is at the end of `v`, `false` otherwise.
 	**/
-  @:noUsing static public function endsWith(v: String, frag: String): Bool {
-    return if (v.length >= frag.length && frag == v.substr(v.length - frag.length)) true else false;
+  @:noUsing public function ends_with(frag: String,self: String): Bool {
+    return if (v.length >= frag.length && frag == self.substr(v.length - frag.length)) true else false;
   }
   /**
 		Returns true if v contains s, false otherwise.
 	**/
-  @:noUsing static public function contains(v: String, s: String): Bool {
-    return v.indexOf(s) != -1;
+  @:noUsing public function contains(substr: String, self: String): Bool {
+    return self.indexOf(substr) != -1;
   }
   /**
 		Returns a String where sub is replaced by by in s.
 	**/
-  @:noUsing static public function replace( s : String, sub : String, by : String ) : String {
-    return StringTools.replace(s, sub, by);
+  @:noUsing public function replace(sub : String, by : String, self : String ) : String {
+    return StringTools.replace(self, sub, by);
   }
   /**
 		Surrounds `v`, prepending `l` and concating `r`.
 	**/
-  static public function brackets(v:String,l:String,r:String){
-    return '$l$v$r';
+  public function brackets(l:String,r:String,self:String){
+    return '$l$self$r';
   }
   /**
 		prepend `before` on `str.`
 	**/
-  static public function prepend(str:String,before:String){
-    return before + str;
+  public function prepend(before:String,self:String){
+    return before + self;
   }
   /**
 		concat `before` on `str.`
 	**/
-  static public function append(str:String,after:String){
-    return str + after;
+  public function append(after:String,self:String){
+    return self + after;
   }
   /**
 		Get character code from `str` at index `i`.
 	**/
-  static public function cca(str:String,i:Int){
-    return str.charCodeAt(i);
+  public function cca(i:Int,self:String){
+    return self.charCodeAt(i);
   }
-  static public function at(str:String,i:Int):String{
-    return str.charAt(i);
+  public function at(i:Int,self:String):String{
+    return self.charAt(i);
   }
   /**
 		Returns an Array of `str` divided into sections of length `len`.
 	**/
-  static public function chunk(str: String, len: Int = 1): Array<String> {
+  public function chunk(len: Int = 1,self: String): Array<String> {
     var start = 0;
-    var end   = (start + len).min(str.length);
+    var end   = (start + len).min(self.length);
 
     return if (end == 0) [];
      else {
-       var prefix = str.substr(start, end);
+       var prefix = self.subself(start, end);
        var rest   = str.substr(end);
 
        [prefix].concat(chunk(rest, len));
@@ -112,47 +97,37 @@ using StringTools;
   /**
 		Returns an Array of the characters of `str`.
 	**/
-  static public function chars(str: String): Array<String> {
+  public function chars(self: String): Array<String> {
     var a = [];
 
-    for (i in 0...str.length) {
-      a.push(str.charAt(i));
+    for (i in 0...self.length) {
+      a.push(self.charAt(i));
     }
 
     return a;
   }
   /**
-		Returns a seamless joined string of `l`.
-	**/
-  static public function string(l: Iterable<String>): String {
-    var o = '';
-    for ( val in l) {
-      o += val;
-    }
-    return o;
-  }
-  /**
 		Turns a slugged or underscored string into a camelCase string.
 	**/
-  static public function toCamelCase(str: String): String {
-    return SepAlphaPattern.map(str, function(e) { return e.matched(2).toUpperCase(); });
+  public function toCamelCase(self: String): String {
+    return SepAlphaPattern.map(self, function(e) { return e.matched(2).toUpperCase(); });
   }
   /**
 		Replaces uppercased letters with prefix `sep` + lowercase.
 	**/
-  static public function fromCamelCase(str: String, sep: String): String {
-    return AlphaUpperAlphaPattern.map(str, function(e) { return e.matched(1) + sep + e.matched(2).toLowerCase(); });
+  public function fromCamelCase(sep: String,self: String="_"): String {
+    return AlphaUpperAlphaPattern.map(self, function(e) { return e.matched(1) + sep + e.matched(2).toLowerCase(); });
   }
   /**
 		Split `st` at `sep`.
 	**/
-  static public function split(st:String,sep:String):Array<String>{
+  public function split(sep:String,self:String):Array<String>{
     return st.split(sep);
   }
   /**
 		Strip whitespace out of a string.
 	**/
-  static public function stripWhite( s : String ) : String {
+  public function stripWhite( s : String ) : String {
     var l = s.length;
     var i = 0;
     var sb = new StringBuf();
@@ -166,7 +141,7 @@ using StringTools;
   /**
 		Continues to replace `sub` with `by` until no more instances of `sub` exist.
 	**/
-  static public function replaceRecurse( s : String, sub : String, by : String ) : String {
+  public function replaceRecurse( s : String, sub : String, by : String ) : String {
     if(sub.length == 0)
       return replace(s, sub, by);
     if(by.indexOf(sub) >= 0)
@@ -184,7 +159,7 @@ using StringTools;
   /**
 		Returns an iterator of `value`.
 	**/
-  static public function iterator(value : String) : Iterator<String> {
+  public function iterator(value : String) : Iterator<String> {
     var index = 0;
     return {
         hasNext: function() {
@@ -194,29 +169,30 @@ using StringTools;
             return if (index < value.length) {
                 value.substr(index++, 1);
             } else {
-              throw Error.withData('Index of String out of bounds',null);
+              throw __.fault().of(IndexOutOfBounds);
             }
         }
     };
   }
-  static public function camelCaseToDashes(value : String) : String {
+  /*
+  public function camelCaseToDashes(value : String) : String {
     var regexp = new EReg("([a-zA-Z])(?=[A-Z])", "g");
     return regexp.replace(value, "$1-");
   }
 
-  static public function camelCaseToLowerCase(value : String, ?separator : String = "_") : String {
+  public function camelCaseToLowerCase(value : String, ?separator : String = "_") : String {
     var reg = new EReg("([^\\A])([A-Z])", "g");
     return reg.replace(value, '$1${separator}$2').toLowerCase();
   }
-  static public function camelCaseToUpperCase(value : String, ?separator : String = "_") : String {
+  public function camelCaseToUpperCase(value : String, ?separator : String = "_") : String {
     var reg = new EReg("([^\\A])([A-Z])", "g");
     return reg.replace(value, '$1${separator}$2').toUpperCase();
-  }
-  static public function isSpace( s : String, pos : Int ) : Bool {
-    var c = s.charCodeAt( pos );
+  }*/
+  public function is_space(pos : Int, self : String ) : Bool {
+    var c = self.charCodeAt( pos );
     return (c >= 9 && c <= 13) || c == 32;
   }
-  static public inline function chr(i:Int){
+  public inline function chr(i:Int){
     return String.fromCharCode(i);
   }
   @thx
@@ -231,7 +207,7 @@ using StringTools;
    * Returns all characters from a that appear after the first occurence of sub, or,
    * if sub does not occur in a, empty string.
    **/
-  public static function substringAfter(a: String, sub: String): String {
+  public static function after(a: String, sub: String): String {
     var idx = a.indexOf(sub);
     if (idx < 0) return "";
     return a.substring(idx + sub.length, a.length);
@@ -240,13 +216,13 @@ using StringTools;
    * Returns all characters from a that appear before the first occurence of sub, or,
    * if sub does not occur in a, empty string.
    **/
-  public static function substringBefore(a: String, sub: String): String {
+  public static function before(a: String, sub: String): String {
     return a.substring(0, a.indexOf(sub));
   }
-  static public function quote(str:String):String{
+  public function quote(str:String):String{
     return '\"$str\"';
   }
-  static public function requote(str:String):String{
+  public function requote(str:String):String{
     return str.replace("\"","\\\"");
   }
 }

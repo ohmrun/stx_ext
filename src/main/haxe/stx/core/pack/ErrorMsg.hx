@@ -1,6 +1,6 @@
 package stx.core.pack;
 
-abstract ErrorMsg(String){
+abstract ErrorMsg(StdString){
   public function create(?code:Int,?pos:PosInfos):Error{
     return new Error(code,this,cast pos)
 ;  }

@@ -5,7 +5,7 @@ import haxe.Timer;
 //redisy
 class LogicalClock{
   static var lifetime   : Int = 0;
-  static var previous   : Float;
+  static var previous   : Null<Float>;
   static var counter    : Int = 0;
 
   static public function get():TimeStamp{

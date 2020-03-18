@@ -1,0 +1,19 @@
+package stx.core.head;
+
+import stx.core.type.Declare in DeclareT;
+
+class Declares{
+  static public function lift<Subject,Verb,Object>(self:DeclareT<Subject,Verb,Object>):Declare<Subject,Verb,Object>{
+    return new Declare(self);
+  }
+  static public function make<Subject,Verb,Object>(brand:Subject,media:Verb,union:Object):Declare<Subject,Verb,Object>{
+    return lift({ brand : brand, media : media, union : union });
+  }
+  static public function copy<Subject,Verb,Object>(?brand,?media,?union,self:Declare<Subject,Verb,Object>){
+    return make(
+      __.option(brand).defv(self.brand),
+      __.option(media).defv(self.media),
+      __.option(union).defv(self.union)
+    );
+  }
+}

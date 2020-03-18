@@ -1,0 +1,15 @@
+package stx.core.pack;
+
+import stx.core.type.Package.Projectable in ProjectableT;
+
+abstract Projectable<T>(ProjectableT<T>) from ProjectableT<T> to ProjectableT<T>{
+  public function new(self) this = self;
+  static public function lift<T>(self:ProjectableT<T>):Projectable<T> return new Projectable(self);
+  
+
+  
+
+  public function prj():ProjectableT<T> return this;
+  private var self(get,never):Projectable<T>;
+  private function get_self():Projectable<T> return lift(this);
+}

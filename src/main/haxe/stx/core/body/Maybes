@@ -1,0 +1,52 @@
+package stx.core.body;
+
+class Maybes{
+  public function new(){}
+
+  public inline function is_defined<T>(thiz:Maybe<T>):Bool {
+    return thiz!=null;
+  }
+  /**
+    If there is a value, apply `fn` to it and return a wrapped result if not, don't.
+  */
+  public inline function map<T,U>(fn:T->U,self:Maybe<T>):Maybe<U>{
+    return switch(self){
+      case null : null;
+      case x    : fn(self.promote());
+    }
+  }
+
+  public inline function defv<T>(elseVal:T,self:Maybe<T>):T{
+    return switch(self.is_defined()){
+      case true   : self.prj();
+      default     : elseVal;
+    }
+  }
+  public inline function def<T>(elseVal:Void->T,self:Maybe<T>):T{
+    return switch(self.is_defined()){
+      case true   : self.prj();
+      default     : elseVal();
+    }
+  }
+  public inline function or<T>(that:Void->Maybe<T>,self:Maybe<T>):Maybe<T>{
+    return switch(self){
+      case null : that();
+      default   : self;
+    }
+  }
+  public function toOption<T>(self:Maybe<T>):Option<T>{
+    return switch(self){
+      case null : None;
+      default   : Some(cast self);
+    }
+  }
+  public inline function flat_map<T,U>(fn:T->Maybe<U>,self:Maybe<T>):Maybe<U>{
+    return stx.core.head.Maybes.flatten(self.map(fn));
+  }
+  public inline function zip<T,U>(that:Maybe<U>,thiz:Maybe<T>):Maybe<Tuple<T,U>>{
+    return switch([thiz,that]){
+      case[a,b] if(a!=null && b!=null) : new Maybe(Tuple(thiz.prj(),that.prj()));
+      case[_,_] : null;
+    }
+  }
+}

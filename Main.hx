@@ -1,10 +1,11 @@
-import stx.core.head.Data;
-import stx.core.Package;
-using stx.core.Lift;
+
+using stx.Pico;
+using stx.core.Pack;
 
 class Main{
   static public function main(){
-    trace("main");
-    var t = stx.core.Timer.unit();
+    #if test
+      __.test(new stx.core.pack.Test().deliver());
+    #end
   }
 }

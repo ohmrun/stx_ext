@@ -1,0 +1,73 @@
+package stx.core.body;
+
+class Positions {
+  static public var nil : Pos = Positions.create(null,null,null,null);
+  static public function toString(pos:PosInfos){
+    if (pos == null) return ':pos ()';
+    var f   = pos.fileName;
+    var cls = pos.className;
+    var fn  = pos.methodName;
+    var ln  = pos.lineNumber;
+    return ':pos (object :file_name $fn :class_name $cls :method_name $fn  :line_number $ln)';
+  }
+  static public function here(?pos:Pos) {
+    return pos;
+  }
+  @:noUsing static public function create(fileName:String,className:String,methodName:String,lineNumber:Null<Int>,?customParams:Array<Dynamic>):Pos{ 
+    return
+      #if macro
+        (null:haxe.macro.Expr.Position);
+      #else
+        {
+          fileName   : fileName,
+          className  : className,
+          methodName : methodName,
+          lineNumber : lineNumber,
+          customParams : customParams
+        };
+      #end
+  }
+  @:noUsing static public function clone(p:Pos){
+    return 
+      #if macro 
+        p;
+      #else
+        create(p.fileName,p.className,p.methodName,p.lineNumber,p.customParams);
+      #end
+  }
+  @:noUsing static public function withFragmentName(pos:Pos):String{
+    #if !macro
+      var f   = pos.fileName;
+      var cls = pos.className;
+      var fn  = pos.methodName;
+      var ln  = pos.lineNumber;
+
+      return '${cls}.${fn}';
+    #else
+      return '<unknown>';
+    #end
+  }
+  @:noUsing static public function toStringClassMethodLine(pos:Pos){
+    #if !macro
+      var f   = pos.fileName;
+      var cls = pos.className;
+      var fn  = pos.methodName;
+      var ln  = pos.lineNumber;
+
+      var class_method = withFragmentName(pos);
+      return '($class_method@${pos.lineNumber})';
+    #else
+      return '<unknown>';
+    #end
+  }
+  public static function withCustomParams(p:Pos,v:Dynamic):Pos{
+    p = clone(p);
+    #if !macro
+      if(p.customParams == null){
+        p.customParams = [];
+      };
+      p.customParams.push(v);
+    #end
+    return p;
+  }
+}

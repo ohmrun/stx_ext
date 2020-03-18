@@ -1,0 +1,5 @@
+package stx.core.head.data;
+
+enum Tuple<T1, T2> {
+    Tuple(t1 : T1, t2 : T2);
+}

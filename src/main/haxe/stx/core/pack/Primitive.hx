@@ -1,19 +1,17 @@
 package stx.core.pack;
 
-import stx.core.head.data.Primitive in PrimitiveT;
-
-abstract Primitive(PrimitiveT) from PrimitiveT to PrimitiveT{
-  @:noUsing static public function fromInt(i:Int):Primitive{
+abstract Primitive(PrimitiveDef) from PrimitiveDef to PrimitiveDef{
+  @:from @:noUsing static public function fromInt(i:Int):Primitive{
     return PInt(i);
   }
-  @:noUsing static public function fromFloat(i:Float):Primitive{
+  @:from @:noUsing static public function fromFloat(i:Float):Primitive{
     return PFloat(i);
   }
-  @:noUsing static public function fromString(i:String):Primitive{
-    return PString(i);
-  }
-  @:noUsing static public function fromBool(i:Bool):Primitive{
+  @:from @:noUsing static public function fromBool(i:Bool):Primitive{
     return PBool(i);
+  }
+  @:from @:noUsing static public function fromString(i:StdString):Primitive{
+    return PString(i);
   }
   public function toAny():Any{
     return switch (this){
@@ -24,7 +22,7 @@ abstract Primitive(PrimitiveT) from PrimitiveT to PrimitiveT{
       case PNull        : null;
     }
   }
-  public function toString():String{
+  public function toString():StdString{
     return switch (this){
       case PString(str) : str;
       case PInt(int)    : '$int';
@@ -33,7 +31,7 @@ abstract Primitive(PrimitiveT) from PrimitiveT to PrimitiveT{
       case PNull        : 'null';
     }
   }
-  public function prj():PrimitiveT{
+  public function prj():PrimitiveDef{
     return this;
   }
   static public function lt(l:Primitive,r:Primitive){

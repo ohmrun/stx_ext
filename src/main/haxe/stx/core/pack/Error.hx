@@ -1,3 +1,3 @@
 package stx.core.pack;
 
-typedef Error = TypedError<Dynamic>;
+//typedef Error  = Err<Dynamic>;

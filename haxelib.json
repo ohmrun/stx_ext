@@ -12,7 +12,9 @@
   "releasenote": "",
   "version": "0.0.1",
   "dependencies": {
-      "tink_core": ""
+      "tink_core": "",
+      "stx_pico": "",
+      "hx3compat": ""
   },
   "classPath": "src/main/haxe"
 }

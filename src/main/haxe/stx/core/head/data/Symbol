@@ -1,0 +1,7 @@
+package stx.core.head.data;
+
+interface Symbol{
+  @:isProp public var id(get,set) : ID;
+  private function get_id():ID;
+  private function set_id(str:ID):ID;
+}
