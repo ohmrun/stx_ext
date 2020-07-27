@@ -1,7 +1,7 @@
 -main Main
 --interp
 
-#--macro stx.core.Plugin.use()
+#--macro stx.ext.Plugin.use()
 #--macro Main.boot()
 -lib hx3compat
 -lib tink_core
@@ -10,5 +10,5 @@
 -lib stx_nano
 -lib stx_ds
 
--D test=stx_std
+-D test=stx_ext
 -cp src/main/haxe

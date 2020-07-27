@@ -1,0 +1,73 @@
+package stx.ext.contract;
+
+class Destructure extends Clazz{
+  static public function zip<Ti,Tii,E>(self:Contract<Ti,E>,that:Contract<Tii,E>):Contract<Couple<Ti,Tii>,E>{
+    var out = LiftFuture.zip(self.prj(),that.prj()).map(
+      (tp) -> tp.fst().zip(tp.snd())
+    );
+    return out;
+  }
+  
+  static public function map<T,Ti,E>(self:Contract<T,E>,fn:T->Ti):Contract<Ti,E>{
+    return self.prj().map(
+      function(x){
+        return switch (x){
+          case Tap      : Tap;
+          case Val(v)   : Val(fn(v));
+          case End(err) : End(err);
+    }});
+  }
+  static public function flat_map<T,Ti,E>(self:Contract<T,E>,fn:T->Contract<Ti,E>):Contract<Ti,E>{
+    var ft : Future<Chunk<T,E>> = self.prj();
+    return ft.flatMap(
+      function(x:Chunk<T,E>):ContractDef<Ti,E>{
+        return switch (x){
+          case Tap      : new Contract(Future.sync(Tap)).prj();
+          case Val(v)   : fn(v).prj();
+          case End(err) : Contract.fromChunk(End(err)).prj();
+    }});
+  }
+  static public function fold<T,Ti,E>(self:Contract<T,E>,val:T->Ti,ers:Null<Err<E>>->Ti,nil:Void->Ti):Future<Ti>{
+    return self.prj().map(Chunk._()._.fold.bind(val,ers,nil));
+  }
+  static public function recover<T,E>(self:Contract<T,E>,fn:Err<E>->Chunk<T,E>):Contract<T,E>{
+    return fold(
+      (x) -> Val(x),
+      (e) -> fn(e),
+      ()  -> Tap,
+      self
+    );
+  }
+  static public function attempt<T,Ti,E,U>(self:Contract<T,E>,fn:T->Chunk<Ti,E>):Contract<Ti,E>{
+    return fold(
+      (x) -> fn(x),
+      (v) -> End(v),
+      ()->Tap,
+      self
+    );
+  }
+  static public function receive<T,E>(self:Contract<T,E>,fn:T->Void):Future<Option<Err<E>>>{
+    return self.prj().map(
+      (chk) -> switch chk {
+        case End(e)   : __.option(e);
+        case Val(v)   : fn(v); None;
+        case Tap      : None;
+      }
+    );
+  }
+  static public function now<T,E>(self:Contract<T,E>):Chunk<T,E>{
+    var out = null;
+    self.prj().handle(
+      (v) -> out = v
+    );
+    if(out == null){
+      out = Tap;
+    }
+    return out;
+  }
+  static public function errata<T,E,EE>(fn:Err<E>->Err<EE>,self:Contract<T,E>):Contract<T,EE>{
+    return self.prj().map(
+      (chk) -> chk.errata(fn)
+    );
+  }
+}

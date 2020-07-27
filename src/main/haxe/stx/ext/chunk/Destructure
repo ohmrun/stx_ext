@@ -1,0 +1,25 @@
+package stx.ext.chunk;
+
+class Destructure extends Clazz{
+
+}
+
+/*
+#if tink_state
+ 
+  static public function fromPromised<T>(p:Promised<T>):Chunk<T>{
+    return switch(p){
+      case Loading                  : Tap;
+      case Done(result)             : Val(result);
+      case Failed(err)              : Error.withData(err.code,err.message,err.data,err.pos);
+    }
+  }
+  static public function toPromised<T>(chk:Chunk<T>):Promised<T>{
+    return switch(chk){
+      case Tap        : Loading;
+      case Val(v)     : Done(v);
+      case End(err)   : Failed(err);
+    }
+  }
+#end
+*/

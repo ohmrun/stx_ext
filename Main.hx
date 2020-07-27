@@ -5,7 +5,7 @@ using stx.Std;
 class Main{
   static public function main(){
     #if test
-      __.test(new stx.core.Test().deliver());
+      __.test(new stx.ext.Test().deliver());
     #end
   }
 }

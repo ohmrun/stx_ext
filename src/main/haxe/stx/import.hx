@@ -1,10 +1,10 @@
-package stx.core;
+package stx.ext;
 
 using StringTools;
 import haxe.Constraints;
 import haxe.ds.ReadOnlyArray;
 
-import stx.core.alias.TinkOutcome;
+import stx.ext.alias.TinkOutcome;
 
 import haxe.PosInfos;
 using Lambda;
@@ -19,9 +19,9 @@ import tink.CoreApi;
 import tink.core.Error.Error;
 import tink.core.Error.Pos;
 
-import stx.core.alias.*;
+import stx.ext.alias.*;
 
 using Lambda;
 using stx.Pico;
 using stx.Nano;
-using stx.Std;
+using stx.Ext;

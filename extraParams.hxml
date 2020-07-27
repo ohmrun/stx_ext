@@ -1,2 +1,2 @@
 
-#--macro stx.core.Plugin.use()
+#--macro stx.ext.Plugin.use()

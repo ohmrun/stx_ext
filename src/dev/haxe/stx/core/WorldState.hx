@@ -1,4 +1,4 @@
-package src.dev.haxe.stx.core;
+package src.dev.haxe.stx.ext;
 
 private class StateRef<S,A>{
   private var value : A;
@@ -16,7 +16,7 @@ private class StateRef<S,A>{
   }
   public function modify(f:A->A):State<S,StateRef<S,A>> {
     var a = read();
-    var v = a.flatMap(f.then(write));
+    var v = a.flatMap(f.fn().then(write));
     return v;
   }
 }

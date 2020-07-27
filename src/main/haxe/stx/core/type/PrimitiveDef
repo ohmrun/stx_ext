@@ -1,9 +1,0 @@
-package stx.core.type;
-
-enum PrimitiveDef{ParameterDef
-  PNull;
-  PBool(b:Bool);
-  PInt(int:Int);
-  PFloat(fl:Float);
-  PString(str:StdString);
-}
