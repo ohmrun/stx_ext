@@ -122,6 +122,7 @@ class LiftStd{
     return Cell.fromT(v);
   }
 }
+typedef LiftDynamicAccessToArrayKV  = stx.ext.lift.LiftDynamicAccessToArrayKV;
 typedef LiftIMapToArrayKV           = stx.ext.lift.LiftIMapToArrayKV;
 typedef LiftArrayToIter             = stx.ext.lift.LiftArrayToIter;
 typedef LiftBoolToPrimitive         = stx.ext.lift.LiftBoolToPrimitive;
@@ -141,7 +142,7 @@ typedef LiftTinkOutcomeToChunk      = stx.ext.lift.LiftTinkOutcomeToChunk;
 typedef LiftCoupleToField           = stx.ext.lift.LiftCoupleToField;
 typedef LiftFuture                  = stx.ext.lift.LiftFuture;
 typedef LiftMapConstructors         = stx.ext.lift.LiftMapConstructors;
-typedef LiftDynamicAccessToArrayKV  = stx.ext.lift.LiftDynamicAccessToArrayKV;
+
 typedef LiftMapMap                  = stx.ext.lift.LiftMapMap;
 #if tink_core
 typedef LiftTinkPromiseToPledge     = stx.ext.lift.LiftTinkPromiseToPledge;

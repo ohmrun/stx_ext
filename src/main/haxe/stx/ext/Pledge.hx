@@ -19,20 +19,20 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
       function(next:T,memo:Res<Ti,E>):Future<Res<Ti,E>>{
         return memo.fold(
           (v) -> fm(v,next).prj(),
-          (e) -> pure(__.failure(e))
+          (e) -> pure(__.reject(e))
         );
       },
-      __.success(start)
+      __.accept(start)
     ));
   }
   @:noUsing static public function lazy<T,E>(fn:Void->T):Pledge<T,E>{
     return lift(Future.irreversible(
-      (f) -> f(__.success(fn()))
+      (f) -> f(__.accept(fn()))
     ));
   }
   @:noUsing static public function fromLazyError<T,E>(fn:Void->Err<E>):Pledge<T,E>{
     return fromLazyRes(
-      () -> __.failure(fn())
+      () -> __.reject(fn())
     );
   }
   #if tink_core
@@ -40,8 +40,8 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
     return lift(
       promise.map(
         (outcome) -> switch(outcome){
-          case tink.core.Outcome.Success(s) : __.success(s);
-          case tink.core.Outcome.Failure(f) : __.failure(Err.fromTinkError(f));
+          case tink.core.Outcome.Success(s) : __.accept(s);
+          case tink.core.Outcome.Failure(f) : __.reject(Err.fromTinkError(f));
         }
       )
     );
@@ -54,7 +54,7 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
   }
 
   @:noUsing static public function err<T,E>(e:Err<E>):Pledge<T,E>{
-    return pure(__.failure(e));
+    return pure(__.reject(e));
   }
   @:noUsing static public function fromRes<T,E>(chk:Res<T,E>):Pledge<T,E>{
     return Future.irreversible(
@@ -64,7 +64,7 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
     );
   }
   @:noUsing static public function fromOption<T,E>(m:Option<T>):Pledge<T,E>{
-    final val = m.fold((x)->__.success(x),()->__.failure(__.fault().err(E_UnexpectedNullValueEncountered)));
+    final val = m.fold((x)->__.accept(x),()->__.reject(__.fault().err(E_UnexpectedNullValueEncountered)));
     return fromRes(val);
   } 
   #if stx_arrowlet
@@ -90,8 +90,8 @@ class PledgeLift{
   static public function map<T,Ti,E>(self:Pledge<T,E>,fn:T->Ti):Pledge<Ti,E>{
     return lift(self.prj().map(
       (x) -> x.fold(
-        (s) -> __.success(fn(s)),
-        __.failure
+        (s) -> __.accept(fn(s)),
+        __.reject
       )
     ));
   }
@@ -101,7 +101,7 @@ class PledgeLift{
       function(x:Res<T,E>):PledgeDef<Ti,E>{
         return x.fold(
           (v)   -> fn(v).prj(),
-          (err) -> Pledge.fromRes(__.failure(err)).prj()
+          (err) -> Pledge.fromRes(__.reject(err)).prj()
         );
       }
     );
@@ -112,7 +112,7 @@ class PledgeLift{
   static public function recover<T,E>(self:Pledge<T,E>,fn:Err<E>->Res<T,E>):Pledge<T,E>{
     return lift(fold(
       self,
-      (x) -> __.success(x),
+      (x) -> __.accept(x),
       (e) -> fn(e)
     ));
   }
@@ -120,7 +120,7 @@ class PledgeLift{
     return lift(fold(
       self,
       (x) -> fn(x),
-      (v) -> __.failure(v)
+      (v) -> __.reject(v)
     ));
   }
   static public function receive<T,E>(self:Pledge<T,E>,fn:T->Void):Future<Option<Err<E>>>{
