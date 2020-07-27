@@ -1,7 +1,7 @@
 package stx.core.lift;
 
 class LiftFuture{
-  static public function zip<Ti,Tii>(self:Future<Ti>,that:Future<Tii>):Future<Tuple<Ti,Tii>>{
+  static public function zip<Ti,Tii>(self:Future<Ti>,that:Future<Tii>):Future<Couple<Ti,Tii>>{
     var done  = false;
     var left  = None;
     var right = None;

@@ -3,10 +3,12 @@
 
 #--macro stx.core.Plugin.use()
 #--macro Main.boot()
--lib tink_core
--lib stx_pico
 -lib hx3compat
+-lib tink_core
 
+-lib stx_pico
+-lib stx_nano
+-lib stx_ds
 
--D test=stx_core
+-D test=stx_std
 -cp src/main/haxe

@@ -1,6 +1,6 @@
-
 using stx.Pico;
-using stx.Core;
+using stx.Nano;
+using stx.Std;
 
 class Main{
   static public function main(){

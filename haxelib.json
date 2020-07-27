@@ -1,5 +1,5 @@
 {
-  "name": "stx_core",
+  "name": "stx_std",
   "license": "MIT",
   "tags": [
       "cross",
@@ -11,10 +11,12 @@
   ],
   "releasenote": "",
   "version": "0.0.1",
+  
   "dependencies": {
-      "tink_core": "",
-      "stx_pico": "",
-      "hx3compat": ""
+    "tink_core"   : "",
+    "stx_pico"    : "",
+    "stx_nano"    : "",
+    "stx_ds"      : ""
   },
   "classPath": "src/main/haxe"
 }

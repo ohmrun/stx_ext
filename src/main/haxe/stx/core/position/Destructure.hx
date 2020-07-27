@@ -3,11 +3,15 @@ package stx.core.position;
 class Destructure extends Clazz{
   public function toString(pos:Pos){
     if (pos == null) return ':pos ()';
-    var f   = pos.fileName;
-    var cls = pos.className;
-    var fn  = pos.methodName;
-    var ln  = pos.lineNumber;
-    return ':pos (object :file_name $fn :class_name $cls :method_name $fn  :line_number $ln)';
+    #if !macro
+      var f   = pos.fileName;
+      var cls = pos.className;
+      var fn  = pos.methodName;
+      var ln  = pos.lineNumber;
+      return ':pos (object :file_name $fn :class_name $cls :method_name $fn  :line_number $ln)';
+    #else
+      return '<unknown>';
+    #end
   }
   public function clone(p:Pos){
     return 

@@ -1,5 +1,9 @@
 package stx.core;
 
+enum CardSum<T>{
+  ___(v:Null<T>);
+}
+
 @:forward abstract Card<T>(CardSum<T>) from CardSum<T>{
 
   public function new(self:CardSum<T>){
@@ -58,7 +62,7 @@ package stx.core;
   @:from static public function fromWildcard(crd:Wildcard):Card<Wildcard>{
     return new Card(___(crd));
   }
-  static public function ab<A,B>(tp:Card<{ a : A, b : B}>):Tuple<A,B>{
-    return tp.map((tp) -> __.tuple(tp.a,tp.b)).val();
+  static public function ab<A,B>(tp:Card<{ a : A, b : B}>):Couple<A,B>{
+    return tp.map((tp) -> __.couple(tp.a,tp.b)).val();
   }
 }

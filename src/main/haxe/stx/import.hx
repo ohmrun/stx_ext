@@ -1,5 +1,6 @@
 package stx.core;
 
+using StringTools;
 import haxe.Constraints;
 import haxe.ds.ReadOnlyArray;
 
@@ -21,5 +22,6 @@ import tink.core.Error.Pos;
 import stx.core.alias.*;
 
 using Lambda;
-using stx.Pico; 
-using stx.Core;
+using stx.Pico;
+using stx.Nano;
+using stx.Std;

@@ -1,5 +1,11 @@
 package stx.core;
 
+typedef SourceIdentDef = {
+  var name    : StdString;
+  var pack    : Array<String>;
+  var module  : Option<haxe.io.Path>;
+}
+
 @:forward abstract SourceIdent(SourceIdentDef) from SourceIdentDef{
   public function new(self){
     this = self;
@@ -52,7 +58,7 @@ package stx.core;
     }else if(
       this.module.zip(that.module)
         .map(
-          (tp:Tuple<haxe.io.Path,haxe.io.Path>) -> tp.into(
+          (tp:Couple<haxe.io.Path,haxe.io.Path>) -> tp.decouple(
             (l,r) -> l.toString().length != r.toString().length
           )
         ).defv(false)

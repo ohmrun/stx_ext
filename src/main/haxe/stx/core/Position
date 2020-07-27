@@ -1,5 +1,6 @@
 package stx.core;
 
+import haxe.io.Path;
 import stx.core.position.Constructor;
 
 @:forward abstract Position(Pos) from Pos to Pos{

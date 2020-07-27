@@ -4,7 +4,7 @@ import tink.core.Ref;
 
 @:access(tink.core.Ref) abstract Cell<T>(Ref<T>) from Ref<T> to Ref<T>{
     public function new(self:Ref<T>) this = self;
-    @:from static public function fromT<T>(v:T):Cell<T> return new Cell(v);
+    @:noUsing @:from static public function fromT<T>(v:T):Cell<T> return new Cell(v);
     
     public var value(get,never) : T;
 

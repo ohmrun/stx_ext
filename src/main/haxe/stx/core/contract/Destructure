@@ -1,14 +1,14 @@
 package stx.core.contract;
 
 class Destructure extends Clazz{
-  public function zip<Ti,Tii,E>(that:Contract<Tii,E>,self:Contract<Ti,E>):Contract<Tuple<Ti,Tii>,E>{
+  static public function zip<Ti,Tii,E>(self:Contract<Ti,E>,that:Contract<Tii,E>):Contract<Couple<Ti,Tii>,E>{
     var out = LiftFuture.zip(self.prj(),that.prj()).map(
       (tp) -> tp.fst().zip(tp.snd())
     );
     return out;
   }
   
-  public function map<T,Ti,E>(fn:T->Ti,self:Contract<T,E>):Contract<Ti,E>{
+  static public function map<T,Ti,E>(self:Contract<T,E>,fn:T->Ti):Contract<Ti,E>{
     return self.prj().map(
       function(x){
         return switch (x){
@@ -17,7 +17,7 @@ class Destructure extends Clazz{
           case End(err) : End(err);
     }});
   }
-  public function flat_map<T,Ti,E>(fn:T->Contract<Ti,E>,self:Contract<T,E>):Contract<Ti,E>{
+  static public function flat_map<T,Ti,E>(self:Contract<T,E>,fn:T->Contract<Ti,E>):Contract<Ti,E>{
     var ft : Future<Chunk<T,E>> = self.prj();
     return ft.flatMap(
       function(x:Chunk<T,E>):ContractDef<Ti,E>{
@@ -27,10 +27,10 @@ class Destructure extends Clazz{
           case End(err) : Contract.fromChunk(End(err)).prj();
     }});
   }
-  public function fold<T,Ti,E>(val:T->Ti,ers:Null<Err<E>>->Ti,nil:Void->Ti,self:Contract<T,E>):Future<Ti>{
+  static public function fold<T,Ti,E>(self:Contract<T,E>,val:T->Ti,ers:Null<Err<E>>->Ti,nil:Void->Ti):Future<Ti>{
     return self.prj().map(Chunk._()._.fold.bind(val,ers,nil));
   }
-  public function recover<T,E>(fn:Err<E>->Chunk<T,E>,self:Contract<T,E>):Contract<T,E>{
+  static public function recover<T,E>(self:Contract<T,E>,fn:Err<E>->Chunk<T,E>):Contract<T,E>{
     return fold(
       (x) -> Val(x),
       (e) -> fn(e),
@@ -38,7 +38,7 @@ class Destructure extends Clazz{
       self
     );
   }
-  public function attempt<T,Ti,E,U>(fn:T->Chunk<Ti,E>,self:Contract<T,E>):Contract<Ti,E>{
+  static public function attempt<T,Ti,E,U>(self:Contract<T,E>,fn:T->Chunk<Ti,E>):Contract<Ti,E>{
     return fold(
       (x) -> fn(x),
       (v) -> End(v),
@@ -46,7 +46,7 @@ class Destructure extends Clazz{
       self
     );
   }
-  public function receive<T,E>(fn:T->Void,self:Contract<T,E>):Future<Option<Err<E>>>{
+  static public function receive<T,E>(self:Contract<T,E>,fn:T->Void):Future<Option<Err<E>>>{
     return self.prj().map(
       (chk) -> switch chk {
         case End(e)   : __.option(e);
@@ -55,7 +55,7 @@ class Destructure extends Clazz{
       }
     );
   }
-  public function now<T,E>(self:Contract<T,E>):Chunk<T,E>{
+  static public function now<T,E>(self:Contract<T,E>):Chunk<T,E>{
     var out = null;
     self.prj().handle(
       (v) -> out = v
@@ -65,7 +65,7 @@ class Destructure extends Clazz{
     }
     return out;
   }
-  public function errata<T,E,EE>(fn:Err<E>->Err<EE>,self:Contract<T,E>):Contract<T,EE>{
+  static public function errata<T,E,EE>(fn:Err<E>->Err<EE>,self:Contract<T,E>):Contract<T,EE>{
     return self.prj().map(
       (chk) -> chk.errata(fn)
     );

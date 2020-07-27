@@ -13,7 +13,7 @@ abstract Outcome<T,E>(OutcomeT<T,E>) from OutcomeT<T,E> to OutcomeT<T,E>{
   public function map<TT>(fn:T->TT)                                           return inj._.map(fn,self);
   public function flat_map<TT>(fn:T->Outcome<TT,E>)                               return inj._.flat_map(fn,self);
   public function fold<Z>(fn:T->Z,er:Err<E>->Z):Z                      return inj._.fold(fn,er,self);
-  public function zip<TT>(that:Outcome<TT,E>):Outcome<Tuple<T,TT>,E>         return inj._.zip(that,self);
+  public function zip<TT>(that:Outcome<TT,E>):Outcome<Couple<T,TT>,E>         return inj._.zip(that,self);
   
   public function fudge():T                                                   return inj._.fudge(self);
   public function elide():Outcome<Dynamic,E>                                  return inj._.elide(this);
@@ -58,12 +58,12 @@ class Destructure extends Clazz{
   public function fold<T,E,Z>(fn:T->Z,er:Err<E>->Z,self:Outcome<T,E>):Z{
     return self.prj().fold(er,fn);
   }
-  public function zip<T,TT,E>(that:Outcome<TT,E>,self:Outcome<T,E>):Outcome<Tuple<T,TT>,E>{
+  public function zip<T,TT,E>(that:Outcome<TT,E>,self:Outcome<T,E>):Outcome<Couple<T,TT>,E>{
     return switch([self,that]){
       case [Left(e),Left(ee)]     : Left(e.next(ee));
       case [Left(e),_]            : Left(e);
       case [_,Left(e)]            : Left(e);
-      case [Right(t),Right(tt)]   : Right(Tuple(t,tt));
+      case [Right(t),Right(tt)]   : Right(Couple(t,tt));
     }
   }
   public function fudge<T,E>(self:Outcome<T,E>):T{

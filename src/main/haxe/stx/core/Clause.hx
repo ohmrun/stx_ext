@@ -1,11 +1,16 @@
 package stx.core;
 
+typedef ClauseDef<Subject,Verb> =  {
+  public var brand(default,null):Subject;
+  public var media(default,null):Verb; 
+ } 
+ 
 @:forward abstract Clause<Subject,Verb>(ClauseDef<Subject,Verb>) from ClauseDef<Subject,Verb> to ClauseDef<Subject,Verb>{
   public function new(self) this = self;
   static public inline function _() return Constructor.ZERO;
   
-  static public function lift<Subject,Verb>(self:ClauseDef<Subject,Verb>):Clause<Subject,Verb> return new Clause(self);
-  static public function make<Subject,Verb>(brand:Subject,media:Verb){
+  @:noUsing static public function lift<Subject,Verb>(self:ClauseDef<Subject,Verb>):Clause<Subject,Verb> return new Clause(self);
+  @:noUsing static public function make<Subject,Verb>(brand:Subject,media:Verb){
     return lift({
       brand:brand,
       media:media

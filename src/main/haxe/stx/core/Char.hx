@@ -1,5 +1,6 @@
 package stx.core;
 
+
 abstract Char(StdString){
   public function new(self) this = self;
 

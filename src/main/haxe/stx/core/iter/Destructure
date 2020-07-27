@@ -3,7 +3,7 @@ package stx.core.iter;
 import haxe.Constraints;
 
 class Destructure extends Clazz{
-  public function cross<T,Ti>(self:Iterable<T>,that:Iterable<Ti>):Iterable<Tuple<T,Ti>>{
+  static public function cross<T,Ti>(self:Iterable<T>,that:Iterable<Ti>):Iterable<Couple<T,Ti>>{
     return { iterator : function(){
       var l_it  = self.iterator();
       var r_it  = that.iterator();
@@ -15,7 +15,7 @@ class Destructure extends Clazz{
             l_val = l_it.next();
           } 
           return if(r_it.hasNext()){
-            __.tuple(l_val,r_it.next());
+            __.couple(l_val,r_it.next());
           }else{
             if(l_it.hasNext()){
               r_it = that.iterator();
@@ -30,15 +30,15 @@ class Destructure extends Clazz{
       };
     }
   }}
-  public function zip<L,R>(l:Iterable<L>,r:Iterable<R>):Iterable<Tuple<L,R>>{
+  static public function zip<L,R>(l:Iterable<L>,r:Iterable<R>):Iterable<Couple<L,R>>{
     return {
-      iterator : function():Iterator<Tuple<L,R>>{
+      iterator : function():Iterator<Couple<L,R>>{
         var lit = l.iterator();
         var rit = r.iterator();
 
         return {
           next : function(){
-            return __.tuple(lit.next(),rit.next()); 
+            return __.couple(lit.next(),rit.next()); 
           },
           hasNext : function(){
             return lit.hasNext() && rit.hasNext();
@@ -47,7 +47,7 @@ class Destructure extends Clazz{
       }
     };
   }
-  public function ldrop<T>(it:Iterable<T>,n:Int):Iterable<T>{
+  static public function ldrop<T>(it:Iterable<T>,n:Int):Iterable<T>{
     return {
       iterator : function(){
         var iter = it.iterator();
@@ -59,17 +59,17 @@ class Destructure extends Clazz{
       }
     }
   }
-  public function tail<T>(it:Iterable<T>){
+  static public function tail<T>(it:Iterable<T>){
     return ldrop(it,1);
   }
-  public function toMap<T,K,V,M:IMap<K,V>>(iter:Iter<T>,fn:T->Tuple<K,V>,map:M):M{
+  static public function toMap<T,K,V,M:IMap<K,V>>(iter:Iter<T>,fn:T->Couple<K,V>,map:M):M{
     for(i in iter){
       var kv = fn(i);
-        __.into2(map.set)(kv);
+          kv.decouple(map.set);
     }
     return map;
   }
-  public function map<T,Ti>(iter:Iter<T>,fn:T->Ti){
+  static public function map<T,Ti>(iter:Iter<T>,fn:T->Ti){
     return {
       iterator : function(){
         var i = iter.iterator();
@@ -93,12 +93,12 @@ class Destructure extends Clazz{
     ```
 
 	**/
-  public function lfold<T, Z>(iter: Iterable<T>, mapper: T -> Z -> Z,seed: Z): Z {
+  static public function lfold<T, Z>(iter: Iterable<T>, mapper: T -> Z -> Z,seed: Z): Z {
     var folded = seed;
     for (e in iter) { folded = mapper(e,folded); }
     return folded;
   }  
-  public function toGenerator<T>(self:Iter<T>):Void->Option<T>{
+  static public function toGenerator<T>(self:Iter<T>):Void->Option<T>{
     var iter : Option<Iterator<T>> = None;
     return () -> {
       if (iter == None){

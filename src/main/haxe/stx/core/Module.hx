@@ -4,11 +4,11 @@ using Lambda;
 
 class Module{
   public function new(){}
-  public function declare<Subject,Verb,Object>(brand:Subject,media:Verb,union:Object){
-    return Declare.make(brand,media,union);
-  }  
   public function Future(){
     return new Ft();
+  }
+  public function Map(){
+    return new Map();
   }
 }
 private class Ft extends Clazz{
@@ -19,5 +19,10 @@ private class Ft extends Clazz{
       ),
       init
     );
+  }
+}
+private class Map extends Clazz{
+  public function String<T>():StdMap<String,T>{
+    return new StdMap();
   }
 }

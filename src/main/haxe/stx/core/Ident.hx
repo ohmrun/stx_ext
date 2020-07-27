@@ -1,5 +1,9 @@
 package stx.core;
 
+typedef IdentDef = {
+  var name : std.String;
+  var pack : Array<String>;
+}
 @:forward abstract Ident(IdentDef) from IdentDef{
   @:from static public function fromDotPath(str:String):Ident{
     var arr = str.split(".");

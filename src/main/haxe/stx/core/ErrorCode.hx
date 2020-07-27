@@ -8,7 +8,7 @@ enum abstract ErrorCode(Int){
   public function prj():Int{
     return this;
   }
-  static public inline function inj() return Constructor.ZERO;
+  static public inline function _() return Constructor.ZERO;
 }
 
 private class Constructor extends Clazz{

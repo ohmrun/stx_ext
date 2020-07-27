@@ -16,69 +16,69 @@ class Destructure extends Clazz{
 
   public function parse_int(self: Chars):Option<Int> {
     return 
-      __.option(Std.parseInt(self))
+      __.option(std.Std.parseInt(self))
         .filter(function(i) return !Math.isNaN(i));
   }
   public function parse_float(self: Chars):Option<Float> {
     return 
-      __.option(Std.parseFloat(self))
+      __.option(std.Std.parseFloat(self))
      .filter(function(i) return !Math.isNaN(i));
   }
   /**
 		Returns `true` if `frag` is at the beginning of `v`, `false` otherwise.
 	**/
-  public function starts_with(frag: Chars,self: Chars): Bool {
+  public function starts_with(self: Chars,frag: Chars): Bool {
     return if (self.length >= frag.length && frag == self.substr(0, frag.length)) true else false;
   }
   /**
 		Returns `true` if `frag` is at the end of `v`, `false` otherwise.
 	**/
-  public function ends_with(frag: Chars,self: Chars): Bool {
+  public function ends_with(self: Chars,frag: Chars): Bool {
     return if (self.length >= frag.length && frag == self.substr(self.length - frag.length)) true else false;
   }
   /**
 		Returns true if v contains s, false otherwise.
 	**/
-  public function contains(substr: Chars, self: Chars): Bool {
+  public function contains(self: Chars,substr: Chars): Bool {
     return self.indexOf(substr) != -1;
   }
   /**
 		Returns a Chars where sub is replaced by by in s.
 	**/
-  public function replace(sub : Chars, by : Chars, self : Chars ) : Chars {
+  public function replace(self : Chars,sub : Chars, by : Chars) : Chars {
     return StringTools.replace(self, sub, by);
   }
   /**
 		Surrounds `v`, prepending `l` and concating `r`.
 	**/
-  public function brackets(l:Chars,r:Chars,self:Chars){
+  public function brackets(self:Chars,l:Chars,r:Chars){
     return '$l$self$r';
   }
   /**
 		prepend `before` on `str.`
 	**/
-  public function prepend(before:Chars,self:Chars){
+  public function prepend(self:Chars,before:Chars){
     return before + self;
   }
   /**
 		concat `before` on `str.`
 	**/
-  public function append(after:Chars,self:Chars){
+  public function append(self:Chars,after:Chars){
     return self + after;
   }
   /**
 		Get character code from `str` at index `i`.
 	**/
-  public function cca(i:Int,self:Chars){
+  public function cca(self:Chars,i:Int){
     return self.charCodeAt(i);
   }
-  public function at(i:Int,self:Chars):Chars{
+  public function at(self:Chars,i:Int):Chars{
     return self.charAt(i);
   }
   /**
 		Returns an Array of `str` divided into sections of length `len`.
 	**/
-  public function chunk(len: Int = 1,self: Chars): Array<Chars> {
+  public function chunk(self: Chars,len: Int = 1): Array<Chars> {
     var start = 0;
     var end   = Math.round(Math.min(start + len,self.length));
 
@@ -117,7 +117,7 @@ class Destructure extends Clazz{
   /**
 		Split `st` at `sep`.
 	**/
-  public function split(sep:Chars,self:Chars):Array<Chars>{
+  public function split(self:Chars,sep:Chars):Array<Chars>{
     return self.split(sep);
   }
   /**
@@ -137,7 +137,7 @@ class Destructure extends Clazz{
   /**
 		Continues to replace `sub` with `by` until no more instances of `sub` exist.
 	**/
-  public function replace_recurse( sub : Chars, by : Chars, self : Chars ) : Chars {
+  public function replace_recurse( self : Chars, sub : Chars, by : Chars ) : Chars {
     if(sub.length == 0)
       return replace(self, sub, by);
     if(by.indexOf(sub) >= 0)
@@ -184,7 +184,7 @@ class Destructure extends Clazz{
     var reg = new EReg("([^\\A])([A-Z])", "g");
     return reg.replace(value, '$1${separator}$2').toUpperCase();
   }*/
-  public function is_space(pos : Int, self : Chars ) : Bool {
+  public function is_space(self : Chars, pos : Int ) : Bool {
     var c = self.charCodeAt( pos );
     return (c >= 9 && c <= 13) || c == 32;
   }
@@ -203,7 +203,7 @@ class Destructure extends Clazz{
    * Returns all characters from a that appear after the first occurence of sub, or,
    * if sub does not occur in a, empty string.
    **/
-  public function after(sub: Chars,self: Chars): Chars {
+  public function after(self: Chars,sub: Chars): Chars {
     var idx = self.indexOf(sub);
     if (idx < 0) return "";
     return self.substring(idx + sub.length, self.length);
@@ -212,7 +212,7 @@ class Destructure extends Clazz{
    * Returns all characters from a that appear before the first occurence of sub, or,
    * if sub does not occur in a, empty string.
    **/
-  public function before(sub: Chars,self: Chars): Chars {
+  public function before(self: Chars,sub: Chars): Chars {
     return self.substring(0, self.indexOf(sub));
   }
   public function quote(str:Chars):Chars{

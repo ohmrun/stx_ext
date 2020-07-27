@@ -5,7 +5,7 @@ package stx.core.type;
 
   var I16BE   = 'i16+';
   var I16LE   = 'i16-';
-  var UI16BE  = 'ui16+';
+  var UI16BE  = 'ui16+';ChunkSum
   var UI16LE  = 'ui16-';
 
   var I24BE   = 'i24+';
