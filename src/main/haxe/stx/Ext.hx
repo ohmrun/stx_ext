@@ -147,3 +147,7 @@ typedef LiftMapMap                  = stx.ext.lift.LiftMapMap;
 #if tink_core
 typedef LiftTinkPromiseToPledge     = stx.ext.lift.LiftTinkPromiseToPledge;
 #end
+
+typedef Math                        = stx.ext.Math;
+typedef Ints                        = stx.ext.Ints;
+typedef Floats                      = stx.ext.Floats;
