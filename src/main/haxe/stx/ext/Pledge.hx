@@ -69,7 +69,7 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
   } 
   #if stx_arrowlet
     public function toProceed(){
-      return stx.arrowlet.pack.Proceed.fromPledge(this);
+      return stx.arw.Proceed.fromPledge(this);
     }
   #end
   public function prj():PledgeDef<T,E> return this;
