@@ -94,7 +94,7 @@ public function at(self:Chars,i:Int):Chars{
 **/
 public function chunk(self: Chars,len: Int = 1): Array<Chars> {
   var start = 0;
-  var end   = Math.round(Math.min(start + len,self.length));
+  var end   = StdMath.round(StdMath.min(start + len,self.length));
 
   return if (end == 0) [];
    else {

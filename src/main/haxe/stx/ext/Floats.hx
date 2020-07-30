@@ -1,7 +1,7 @@
 package stx.ext;
 
-
 class Floats {
+	//static public inline function pow(n0:)
 	/**
 		Produces the difference between `n1` and `n0`.
 	**/
@@ -31,22 +31,22 @@ class Floats {
 	*
 	*/
 	static public inline function round(n:Float,c:Int = 1):Int{
-		var r = Math.pow(10, c);
-		return (Math.round(n * r) / r).int();
+		var r = StdMath.pow(10, c);
+		return (StdMath.round(n * r) / r).int();
 	}
 	/**
 		Ceiling `n` to `c` decimal places.
 	**/
 	static public inline function ceil(n:Float,c:Int = 1):Int{
-		var r = Math.pow(10, c);
-		return (Math.ceil(n * r) / r).int();
+		var r = StdMath.pow(10, c);
+		return (StdMath.ceil(n * r) / r).int();
 	}
 	/**
 		Floor `n` to `c` decimal places.
 	**/
 	static public inline function floor(n:Float,c:Int = 1):Int{
-		var r = Math.pow(10, c);
-		return (Math.floor(n * r) / r).int();
+		var r = StdMath.pow(10, c);
+		return (StdMath.floor(n * r) / r).int();
 	}
 	@doc(
 		"Produce a number based on `n` that is `min` if less than `min`, 
@@ -62,7 +62,7 @@ class Floats {
 		Produce -1 if `n` is less than 0, 1 if `n` is greater, and 0 if input is 0.
 	**/
 	static public inline function sgn(n:Float) {
-		return (n == 0 ? 0 : Math.abs(n) / n);
+		return (n == 0 ? 0 : StdMath.abs(n) / n);
 	}
 
 	/**

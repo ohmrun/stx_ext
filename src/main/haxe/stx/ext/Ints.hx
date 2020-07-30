@@ -63,7 +63,7 @@ class Ints {
 		if (n == 1) return false;
 		if (n == 2) return false;
 		if (n%2== 0) return false;
-		var itr = new IntIterator(3,Math.ceil(Math.sqrt(n))+1);
+		var itr = new IntIterator(3,StdMath.ceil(StdMath.sqrt(n))+1);
 		for (i in itr){
 			if (n % 1 == 0){
 				return false;
@@ -94,7 +94,7 @@ class Ints {
 	**/
 	static public inline function divisors(n:Int){
 		var r = new Array<Int>();
-		var iter = new IntIterator(1,Math.ceil((n/2)+1));
+		var iter = new IntIterator(1,StdMath.ceil((n/2)+1));
 		for (i in iter){
 			if (n % i == 0){
 				r.push(i);
@@ -219,7 +219,7 @@ class Ints {
 		return v >> bits;
 	}
 	static public inline function abs(v : Int) : Int{
-		return Std.int(Math.abs(v));
+		return Std.int(StdMath.abs(v));
 	}
 	static public inline function toString(a:Int):String{
 		return '$a';

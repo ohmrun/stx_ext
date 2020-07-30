@@ -1,5 +1,7 @@
 package stx.ext;
 
+import stx.ext.alias.StdMath;
+
 using stx.ext.Math;
 
 class Math {	
@@ -14,15 +16,18 @@ class Math {
 		Produces the radians of a given angle in degrees.
 	**/
 	static public inline function radians(v:Float) {
-		return v * ( Math.PI / 180 );
+		return v * ( StdMath.PI / 180 );
 	}
 	/**
 		Produces the degrees of a given angle in radians.
 	**/
 	static public inline function degrees(v:Float) {
-		return v * ( 180 / Math.PI ) ;
+		return v * ( 180 / StdMath.PI ) ;
 	}
 	@:noUsing static public inline function random(max = 1,min = 0){
 		return Math.random() * (max - min) + min;
+	}
+	@:noUsing static inline public function isNaN(fl:Float):Bool{
+		return StdMath.isNaN(fl);
 	}
 }
