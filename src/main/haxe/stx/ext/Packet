@@ -1,5 +1,0 @@
-package stx.ext;
-
-@:forward abstract Packet(PacketDef) from PacketDef{
-  
-}

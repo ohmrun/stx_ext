@@ -151,3 +151,4 @@ typedef LiftTinkPromiseToPledge     = stx.ext.lift.LiftTinkPromiseToPledge;
 typedef Math                        = stx.ext.Math;
 typedef Ints                        = stx.ext.Ints;
 typedef Floats                      = stx.ext.Floats;
+typedef Blob                        = stx.ext.Blob;
