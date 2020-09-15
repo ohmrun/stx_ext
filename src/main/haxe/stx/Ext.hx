@@ -144,6 +144,7 @@ typedef LiftTinkOutcomeToChunk      = stx.ext.lift.LiftTinkOutcomeToChunk;
 typedef LiftCoupleToField           = stx.ext.lift.LiftCoupleToField;
 typedef LiftFuture                  = stx.ext.lift.LiftFuture;
 typedef LiftMapConstructors         = stx.ext.lift.LiftMapConstructors;
+typedef LiftResToChunk              = stx.ext.lift.LiftResToChunk;
 
 typedef LiftMapMap                  = stx.ext.lift.LiftMapMap;
 #if tink_core

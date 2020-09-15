@@ -227,4 +227,11 @@ class ChunkLift{
      }
    };
  }
+ static public function secure<O,E>(self:Chunk<O,E>):Chunk<O,E>{
+   return self.fold(
+     (v) -> v == null ? Tap : Val(v),
+     End,
+     () -> Tap
+   );
+ }
 }
