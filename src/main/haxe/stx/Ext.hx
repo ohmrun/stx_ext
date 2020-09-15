@@ -1,6 +1,5 @@
 package stx;
 
-
 typedef MatchApi                              = stx.ext.Match.MatchApi;
 typedef Match                                 = stx.ext.Match.Match;
 typedef RegexApi                              = stx.ext.Regex.RegexApi;
