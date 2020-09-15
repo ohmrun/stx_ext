@@ -234,7 +234,10 @@ class CharsLift{
   static public function quote(str:Chars):Chars{
     return '\"$str\"';
   }
-  static public function requote(str:Chars):Chars{
-    return str.replace("\"","\\\"");
+  static public function requote(self:Chars):Chars{
+    return self.replace("\"","\\\"");
+  }
+  static public function truncate(self:Chars,int:Int):Chars{
+    return self.substr(0,int);
   }
 }
