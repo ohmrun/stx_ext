@@ -143,4 +143,33 @@ class IterLift{
     }
     return arr;
   }
+  static public function foldr<T,Z>(iter:Iter<T>,fn:T->Z->Z,init:Z):Z{
+    var data      = init;
+    var iterator  = iter.iterator();
+
+    function eff():Void{
+      if(iterator.hasNext()){
+        var next = iterator.next();
+        eff();
+            data = fn(next,data);
+      }
+    }
+    eff();
+    return data;
+  }
+  static public function foldl<T,Z>(iter:Iter<T>,fn:T->Z->Z,init:Z):Z{
+    var data      = init;
+    var iterator  = iter.iterator();
+
+    function eff():Void{
+      if(iterator.hasNext()){
+        var next = iterator.next();
+            data = fn(next,data);
+            eff();
+      }
+    }
+    eff();
+    return data;
+  }
+
 }
