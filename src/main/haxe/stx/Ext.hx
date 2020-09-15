@@ -70,6 +70,9 @@ class LiftString{
   static public function sep(path:String):String{
     return new haxe.io.Path(path).backslash ? "\\" : "/";
   }
+  static public function toChars(self:String):Chars{
+    return self;
+  }
 }
 
 interface AppliableApi<P,R>{
