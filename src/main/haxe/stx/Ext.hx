@@ -104,14 +104,14 @@ enum OpSum<U,B,T>{
 }
 typedef Op<U,B,T> = OpSum<U,B,T>;
 
-class LiftStd{
-  static public function core(__:Wildcard):stx.ext.Module{
+class Ext{
+  static public function core(wildcard:Wildcard):stx.ext.Module{
     return new stx.ext.Module();
   }
-  static public function here(_:Wildcard,?pos:Pos):Position{
+  static public function here(wildcard:Wildcard,?pos:Pos):Position{
     return new Position(pos);
   }
-  static public function rtid():Void->Void{
+  static public function rtid(wildcard:Wildcard):Void->Void{
     return () -> {};
   }
   static public function chunk<T>(_:Wildcard,v:Null<T>):Chunk<T,Dynamic>{
