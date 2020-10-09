@@ -22,9 +22,8 @@ typedef Generator<T>                          = stx.ext.Generator<T>;
 typedef Unfold<T,R>                           = stx.ext.Unfold<T,R>;
 
 
-typedef Iter<T>                               = stx.ext.Iter<T>;
 
-typedef KV<K,V>                               = stx.ext.KV<K,V>;
+
 typedef Field<V>                              = stx.ext.Field<V>;
 
 
@@ -108,8 +107,8 @@ class Ext{
   static public function core(wildcard:Wildcard):stx.ext.Module{
     return new stx.ext.Module();
   }
-  static public function here(wildcard:Wildcard,?pos:Pos):Position{
-    return new Position(pos);
+  static public function here(wildcard:Wildcard,?pos:Pos):Pos{
+    return pos;
   }
   static public function rtid(wildcard:Wildcard):Void->Void{
     return () -> {};

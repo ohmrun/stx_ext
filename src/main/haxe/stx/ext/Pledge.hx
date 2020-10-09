@@ -67,9 +67,9 @@ typedef PledgeDef<T,E> = Future<Res<T,E>>;
     final val = m.fold((x)->__.accept(x),()->__.reject(__.fault().err(E_UnexpectedNullValueEncountered)));
     return fromRes(val);
   } 
-  #if stx_arrowlet
-    public function toProceed(){
-      return stx.arw.Proceed.fromPledge(this);
+  #if stx_arw
+    public function toProduce(){
+      return stx.arw.Produce.fromPledge(this);
     }
   #end
   public function prj():PledgeDef<T,E> return this;

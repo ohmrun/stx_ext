@@ -224,4 +224,10 @@ class Ints {
 	static public inline function toString(a:Int):String{
 		return '$a';
 	}
+	static public function is_between(n:Int,l:Int,h:Int){
+		return n > l && n < h;
+	}
+	static public function is_of_range(n:Int,l:Int,h:Int){
+		return n >= l && n <= h;
+	}
 }
