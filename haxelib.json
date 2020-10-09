@@ -10,7 +10,7 @@
       "0b1kn00b"
   ],
   "releasenote": "",
-  "version": "0.0.1",
+  "version": "0.1.0",
   
   "dependencies": {
     "tink_core"   : "2.0.0-rc.1",
